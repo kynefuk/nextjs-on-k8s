@@ -1,25 +1,21 @@
 import sqlalchemy
-from databases import Database
-from pydantic import BaseModel
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
 
-DB_URL = "sqlite:///example.db"
-database = Database(DB_URL)
+SQLALCHEMY_DATABASE_URL = "sqlite:///../sql_app.db"
 
-metadata = sqlalchemy.MetaData()
-
-todos = sqlalchemy.Table(
-    "todos",
-    metadata,
-    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
-    sqlalchemy.Column("title", sqlalchemy.String),
-    sqlalchemy.Column("done", sqlalchemy.Boolean),
+engine = create_engine(
+    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
 )
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-engine = sqlalchemy.create_engine(DB_URL, connect_args={"check_same_thread": False})
-metadata.create_all(engine)
+Base = declarative_base()
 
 
-class Todo(BaseModel):
-    id: int
-    title: str
-    done: bool
+class Todo(Base):
+    __tablename__ = "todos"
+
+    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, index=True)
+    title = sqlalchemy.Column(sqlalchemy.String)
+    done = sqlalchemy.Column(sqlalchemy.Boolean, default=False)
