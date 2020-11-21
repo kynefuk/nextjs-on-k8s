@@ -1,8 +1,9 @@
+from typing import Optional
 from pydantic import BaseModel
 
 
 class TodoBaseType(BaseModel):
-    id: int
+    pass
 
 
 class TodoCreateType(TodoBaseType):
@@ -10,7 +11,13 @@ class TodoCreateType(TodoBaseType):
     done: bool = False
 
 
+class TodoUpdateType(TodoBaseType):
+    title: Optional[str]
+    done: Optional[bool]
+
+
 class Todo(TodoBaseType):
+    id: int
     title: str
     done: bool
 
