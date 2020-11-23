@@ -1,10 +1,12 @@
-import React, {useState} from 'react'
+import React from 'react'
 import {Table} from 'react-bootstrap';
 import {Todo} from '../types/todo';
 import styles from '../styles/TodoList.module.css'
+import useSWR from 'swr';
 
 export const TodoList = () => {
-  const [todos, setTodos] = useState<Todo[]>([]);
+  const {data} = useSWR<Todo[]>('http://localhost:7000/todos/');
+  console.log(data)
   return (
     <Table striped bordered hover className={styles.table}>
       <thead>
@@ -15,7 +17,8 @@ export const TodoList = () => {
         </tr>
       </thead>
       <tbody>
-          {todos.map((todo) => {
+        {data ?
+          data.map((todo) => {
             return (
               <tr key={todo.id}>
                 <td>{todo.id}</td>
@@ -23,7 +26,9 @@ export const TodoList = () => {
                 <td>{todo.done}</td>
               </tr>
             )
-        })}
+          })
+        : null
+        }
       </tbody>
     </Table>
   )

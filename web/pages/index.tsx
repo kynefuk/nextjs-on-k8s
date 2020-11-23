@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 import {TodoList} from '../components/TodoList'
 
@@ -15,6 +16,7 @@ export default function Home() {
           TodoList
         </h3>
         <TodoList />
+        <Link href="/add"><a>Add Todo</a></Link>
       </main>
 
       <footer className={styles.footer}>
