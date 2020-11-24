@@ -17,13 +17,6 @@ spec:
           image: gcrのイメージ
           ports:
             - containerPort: 7000
-        - name: nginx
-          image: nginx:latest
-          volumeMounts:
-            - mountPath: /var/www/next
-              name: frontend-build
-          ports:
-            - containerPort: 80
         - name: frontend
           image: nextjsのGCRイメージ
           command:
