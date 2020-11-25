@@ -21,6 +21,7 @@ jobs:
       - name: Configure docker to use gcloud cli
         run: gcloud auth configure-docker --quiet
       - name: Build Image
-        run: docker build -t ${{ secrets.HOST_NAME }}/${{ secrets.PROJECT_ID }}/nextjs:latest
+        run: docker build -t ${{ secrets.HOST_NAME }}/${{ secrets.PROJECT_ID }}/nextjs:latest .
+        working-directory: ./web
       - name: Push Image
         run: docker push ${{ secrets.HOST_NAME }}/${{ secrets.PROJECT_ID }}/nextjs:latest
