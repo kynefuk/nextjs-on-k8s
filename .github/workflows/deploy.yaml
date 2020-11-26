@@ -22,7 +22,7 @@ jobs:
         run: gcloud auth configure-docker --quiet
       - name: Build Image
         run: docker build -t ${{ secrets.HOST_NAME }}/${{ secrets.PROJECT_ID }}/fastapi:latest --target dev .
-        working-directory: ./web
+        working-directory: ./server
       - name: Push Image
         run: docker push ${{ secrets.HOST_NAME }}/${{ secrets.PROJECT_ID }}/fastapi:latest
 
