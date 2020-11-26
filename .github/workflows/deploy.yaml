@@ -4,7 +4,29 @@ on:
     branches:
       - "master"
 jobs:
-  build:
+  backend:
+    name: Build Backend
+    runs-on: ubuntu-18.04
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.0.0
+      - name: GCP Authenticate
+        uses: google-github-actions/setup-gcloud@master
+        with:
+            project_id: ${{ secrets.PROJECT_ID }}
+            service_account_email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
+            service_account_key: ${{ secrets.SERVICE_ACCOUNT_KEY }}
+            export_default_credentials: true
+      - name: Configure docker to use gcloud cli
+        run: gcloud auth configure-docker --quiet
+      - name: Build Image
+        run: docker build -t ${{ secrets.HOST_NAME }}/${{ secrets.PROJECT_ID }}/fastapi:latest --target dev .
+        working-directory: ./web
+      - name: Push Image
+        run: docker push ${{ secrets.HOST_NAME }}/${{ secrets.PROJECT_ID }}/fastapi:latest
+
+  frontend:
     name: Build Frontend
     runs-on: ubuntu-18.04
     timeout-minutes: 30
