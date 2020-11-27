@@ -12,4 +12,5 @@ WORKDIR /opt/app/myapp
 
 ENV PYTHONBUFFERED=TRUE
 EXPOSE 7000
+RUN export PYTHONPATH=$PYTHONPATH:/opt/app
 CMD [ "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "7000" ]

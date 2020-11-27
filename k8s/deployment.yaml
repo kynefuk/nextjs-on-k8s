@@ -14,18 +14,15 @@ spec:
     spec:
       containers:
         - name: backend
-          image: gcrのイメージ
+          image: gcr.io/gihyo-kube-295605/fastapi
           ports:
             - containerPort: 7000
         - name: frontend
-          image: nextjsのGCRイメージ
-          command:
-            - 'npm run build'
+          image: gcr.io/gihyo-kube-295605/nextjs
+          command: ["/bin/sh", "-c"]
+          args: ["npm", "run", "start"]
           ports:
             - containerPort: 3000
-      volumes:
-        - name: frontend-build
-          emptyDir: {}
 ---
 apiVersion: v1
 kind: Service
