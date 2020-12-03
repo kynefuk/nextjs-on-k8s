@@ -2,3 +2,5 @@ web/.next
 web/node_modules
 __pycache__
 *.db
+.serverless
+.serverless_nextjs
